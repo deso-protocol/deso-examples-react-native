@@ -24,6 +24,7 @@ This is using a basic react native [expo setup](https://reactnative.dev/docs/env
 - Make sure all necessary native code is installed
   ```sh
   npx expo prebuild
+  cd ios && pod install && cd -
   ```
 
 - Run the app
@@ -37,8 +38,8 @@ This is using a basic react native [expo setup](https://reactnative.dev/docs/env
 
 ## What works out of the box
 - Data fetching
-- Arbitrary key generation
-- Encrypting and decrypting
+- [Arbitrary key generation](./App.tsx#L10)
+- [Encrypting and decrypting](./App.tsx#L15)
 - Constructing, signing, and submitting transactions
 
 ## Current Limitations
