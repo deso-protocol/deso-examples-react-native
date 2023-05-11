@@ -10,6 +10,11 @@ This is using a basic react native [expo setup](https://reactnative.dev/docs/env
   - `node >= 14`
   - `ruby 2.7.6`
 
+- Install [cocoapods](https://cocoapods.org) (native ios dependency manager).
+  ```sh
+  sudo gem install cocoapods
+  ```
+
 - clone this repo
   ```sh
   git clone ...
