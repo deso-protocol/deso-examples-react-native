@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@ethersproject/shims": "^5.7.0",
+    "@react-navigation/native": "^6.1.6",
+    "@react-navigation/native-stack": "^6.9.12",
     "deso-protocol": "^1.1.15",
     "expo": "~48.0.15",
     "expo-splash-screen": "~0.18.2",
@@ -16,6 +18,8 @@
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-get-random-values": "^1.8.0",
+    "react-native-safe-area-context": "4.5.0",
+    "react-native-screens": "~3.20.0",
     "react-native-webview": "11.26.0",
     "react-native-webview-crypto": "^0.0.25",
     "text-encoding": "^0.7.0"
