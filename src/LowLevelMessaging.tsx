@@ -1,14 +1,13 @@
-import { decryptChatMessage, encryptChatMessage, keygen, publicKeyToBase58Check as getPublicKey } from 'deso-protocol';
-import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, TextInput } from 'react-native';
+import { decryptChatMessage, encryptChatMessage, publicKeyToBase58Check as getPublicKey, keygen } from 'deso-protocol';
+import { getPaginatedDMThread, getUsersStateless } from "deso-protocol/src/data/data";
+import { configure } from "deso-protocol/src/deso-protocol";
 import { deriveAccessGroupKeyPair, signTx } from "deso-protocol/src/identity/crypto-utils";
-import { constructCreateAccessGroupTransaction } from "deso-protocol/src/transactions/access-groups";
 import { identity } from "deso-protocol/src/identity/identity";
 import { KeyPair } from "deso-protocol/src/identity/types";
-import { constructSendDMTransaction, sendDMMessage } from "deso-protocol/src/transactions/social";
-import { getPaginatedDMThread, getUsersStateless } from "deso-protocol/src/data/data";
+import { constructCreateAccessGroupTransaction } from "deso-protocol/src/transactions/access-groups";
+import { sendDMMessage } from "deso-protocol/src/transactions/social";
 import React, { useState } from "react";
-import { configure } from "deso-protocol/src/deso-protocol";
+import { Button, Text, TextInput, View } from 'react-native';
 
 
 
