@@ -1,14 +1,13 @@
 import { decryptChatMessage, encryptChatMessage, keygen, publicKeyToBase58Check as getPublicKey } from 'deso-protocol';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, TextInput } from 'react-native';
 import { deriveAccessGroupKeyPair, signTx } from "deso-protocol/src/identity/crypto-utils";
 import { constructCreateAccessGroupTransaction } from "deso-protocol/src/transactions/access-groups";
 import { identity } from "deso-protocol/src/identity/identity";
 import { KeyPair } from "deso-protocol/src/identity/types";
-import { constructSendDMTransaction } from "deso-protocol/src/transactions/social";
+import { constructSendDMTransaction, sendDMMessage } from "deso-protocol/src/transactions/social";
 import { getPaginatedDMThread, getUsersStateless } from "deso-protocol/src/data/data";
 import { useState } from "react";
-import { TextInput } from "react-native/Libraries/Components/TextInput/TextInput";
 import { configure } from "deso-protocol/src/deso-protocol";
 
 export const DEFAULT_KEY = "default-key";
@@ -57,7 +56,7 @@ export default function App() {
     recipientAccessGroupKeyName: string,
     message: string) => {
     const encryptedMessage = await encryptChatMessage(senderAccessGroupKeyPair.seedHex, recipientAccessGroupPublicKeyBase58Check, message);
-    const unsignedTx = await constructSendDMTransaction({
+    const unsignedTx = await sendDMMessage({
       SenderAccessGroupOwnerPublicKeyBase58Check: publicKeyToBase58Check(senderKeyPair.public),
       SenderAccessGroupPublicKeyBase58Check: publicKeyToBase58Check(senderAccessGroupKeyPair.public),
       SenderAccessGroupKeyName: senderAccessGroupKeyName,
@@ -65,8 +64,20 @@ export default function App() {
       RecipientAccessGroupPublicKeyBase58Check: recipientAccessGroupPublicKeyBase58Check,
       RecipientAccessGroupKeyName: recipientAccessGroupKeyName,
       EncryptedMessageText: encryptedMessage,
-    });
-    const signedTx = await signTx(unsignedTx.TransactionHex, senderKeyPair.seedHex);
+    }, {
+      broadcast: false,
+    })
+    // TODO: Why isn't local construction working?
+    // const unsignedTx = await constructSendDMTransaction({
+    //   SenderAccessGroupOwnerPublicKeyBase58Check: publicKeyToBase58Check(senderKeyPair.public),
+    //   SenderAccessGroupPublicKeyBase58Check: publicKeyToBase58Check(senderAccessGroupKeyPair.public),
+    //   SenderAccessGroupKeyName: senderAccessGroupKeyName,
+    //   RecipientAccessGroupOwnerPublicKeyBase58Check: recipientPublicKeyBase58Check,
+    //   RecipientAccessGroupPublicKeyBase58Check: recipientAccessGroupPublicKeyBase58Check,
+    //   RecipientAccessGroupKeyName: recipientAccessGroupKeyName,
+    //   EncryptedMessageText: encryptedMessage,
+    // });
+    const signedTx = await signTx(unsignedTx.constructedTransactionResponse.TransactionHex, senderKeyPair.seedHex);
     const submitTxRes = await identity.submitTx(signedTx);
     return {
       encryptedMessage,
@@ -174,32 +185,6 @@ export default function App() {
             setKeyPair2(keygen());
           }}/>
       }
-      {/*<Button title="Click me" onPress={async () => {*/}
-      {/*  const keys1 = keygen();*/}
-      {/*  const keys2 = keygen();*/}
-      {/*  const key1DefaultKey = deriveAccessGroupKeyPair(keys1.seedHex, DEFAULT_KEY);*/}
-      {/*  const key2DefaultKey = deriveAccessGroupKeyPair(keys2.seedHex, DEFAULT_KEY);*/}
-
-      {/*  constructCreateAccessGroupTransaction({*/}
-      {/*    AccessGroupKeyName: DEFAULT_KEY,*/}
-      {/*    AccessGroupPublicKeyBase58Check: publicKeyToBase58Check(key1DefaultKey.public),*/}
-      {/*    AccessGroupOwnerPublicKeyBase58Check: publicKeyToBase58Check(keys1.public),*/}
-      {/*  }).then((res) => {*/}
-      {/*    signTx(res.TransactionHex, keys1.seedHex).then((res) => {*/}
-      {/*      console.log('signed tx', res);*/}
-      {/*      identity.submitTx(res);*/}
-      {/*    })*/}
-      {/*  })*/}
-
-
-
-      {/*  const message = 'hello world';*/}
-      {/*  const publicEncryptionKey = publicKeyToBase58Check(keys2.public);*/}
-      {/*  const cipherText = await encryptChatMessage(keys1.seedHex, publicEncryptionKey, message);*/}
-      {/*  console.log('encrypted message', cipherText);*/}
-      {/*  const plainText = await decryptChatMessage(keys2.seedHex, publicKeyToBase58Check(keys1.public), cipherText);*/}
-      {/*  console.log('decrypted message', plainText);*/}
-      {/*}} />*/}
       <StatusBar style="auto" />
     </View>
   );
