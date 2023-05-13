@@ -10,6 +10,11 @@ This is using a basic react native [expo setup](https://reactnative.dev/docs/env
   - `node >= 14`
   - `ruby 2.7.6`
 
+- Install [cocoapods](https://cocoapods.org) (native ios dependency manager).
+  ```sh
+  sudo gem install cocoapods
+  ```
+
 - clone this repo
   ```sh
   git clone ...
@@ -24,6 +29,7 @@ This is using a basic react native [expo setup](https://reactnative.dev/docs/env
 - Make sure all necessary native code is installed
   ```sh
   npx expo prebuild
+  cd ios && pod install && cd -
   ```
 
 - Run the app
@@ -34,14 +40,3 @@ This is using a basic react native [expo setup](https://reactnative.dev/docs/env
 - Install the [Expo Go](https://expo.dev/client) app on your phone
 
 - Open your phone's camera app and scan the QR code from your terminal
-
-## What works out of the box
-- Data fetching
-- Arbitrary key generation
-- Encrypting and decrypting
-- Constructing, signing, and submitting transactions
-
-## Current Limitations
-- All flows that depend on the identity window (login, logout, derive, etc) and/or
-local storage are a work in progress and will require some special work specific
-to the react native environment.
