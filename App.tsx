@@ -70,11 +70,13 @@ const DesoIdentityContext = createContext<DesoIdentityState>({
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-  const [desoIdentityState, setDesoIdentityState] = useState<DesoIdentityState>({
-    authenticatedUser: null,
-    alternateUsers: [],
-    isLoading: false,
-  });
+  const [desoIdentityState, setDesoIdentityState] = useState<DesoIdentityState>(
+    {
+      authenticatedUser: null,
+      alternateUsers: [],
+      isLoading: false,
+    }
+  );
 
   // For in depth explanation of this useEffect, see our react example app:
   // https://github.com/deso-protocol/deso-examples-react/blob/80eccc3d8d7e29485e8645baff4bb58936080c33/src/routes/root.jsx#LL28C3-L124C5
@@ -153,10 +155,6 @@ export default function App() {
 export function HomeScreen({ navigation }: { navigation: any }) {
   const { authenticatedUser, isLoading } = useContext(DesoIdentityContext);
 
-  if (isLoading) {
-    return <ActivityIndicator size="large" />;
-  }
-
   return (
     <View
       style={{
@@ -165,19 +163,25 @@ export function HomeScreen({ navigation }: { navigation: any }) {
         justifyContent: "center",
       }}
     >
-      <Text>Home Screen</Text>
-      {authenticatedUser ? (
-        <>
-          <Text>Hello, ${getDisplayName(authenticatedUser)}</Text>
-          <Button title="Logout" onPress={() => identity.logout()} />
-        </>
+      {isLoading ? (
+        <ActivityIndicator size="large" />
       ) : (
-        <Button title="Login" onPress={() => identity.login()} />
+        <>
+          <Text>Home Screen</Text>
+          {authenticatedUser ? (
+            <>
+              <Text>Hello, ${getDisplayName(authenticatedUser)}</Text>
+              <Button title="Logout" onPress={() => identity.logout()} />
+            </>
+          ) : (
+            <Button title="Login" onPress={() => identity.login()} />
+          )}
+          <Button
+            title="Low Level Messaging"
+            onPress={() => navigation.push("Messaging")}
+          />
+        </>
       )}
-      <Button
-        title="Low Level Messaging"
-        onPress={() => navigation.push("Messaging")}
-      />
     </View>
   );
 }
