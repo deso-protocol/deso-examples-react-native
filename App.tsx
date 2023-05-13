@@ -137,10 +137,6 @@ export default function App() {
     [] /* NOTE: We pass an empty array to useEffect so that it only runs once for our entire app session */
   );
 
-  if (desoIdentityState.isLoading) {
-    return <ActivityIndicator size="large" />;
-  }
-
   return (
     <DesoIdentityContext.Provider value={desoIdentityState}>
       <NavigationContainer>
@@ -155,7 +151,11 @@ export default function App() {
 }
 
 export function HomeScreen({ navigation }: { navigation: any }) {
-  const { authenticatedUser } = useContext(DesoIdentityContext);
+  const { authenticatedUser, isLoading } = useContext(DesoIdentityContext);
+
+  if (isLoading) {
+    return <ActivityIndicator size="large" />;
+  }
 
   return (
     <View
@@ -163,7 +163,6 @@ export function HomeScreen({ navigation }: { navigation: any }) {
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#000",
       }}
     >
       <Text>Home Screen</Text>
