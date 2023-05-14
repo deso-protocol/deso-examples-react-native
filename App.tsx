@@ -7,7 +7,7 @@ import {
   configure,
   getUsersStateless,
   identity,
-} from "deso-protocol";
+} from "deso-protocol-react-native";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
 import { createContext, useContext, useEffect, useState } from "react";
