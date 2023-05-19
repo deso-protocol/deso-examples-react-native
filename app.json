@@ -17,7 +17,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.desoexamplesreactnative"
+      "bundleIdentifier": "com.anonymous.desoexamplesreactnative",
+      "usesNonExemptEncryption": false
     },
     "android": {
       "adaptiveIcon": {

@@ -12,7 +12,7 @@ import {
   keygen,
   sendDMMessage,
   signTx,
-} from "deso-protocol-react-native";
+} from "deso-protocol";
 import { useState } from "react";
 import { Button, Text, TextInput, View } from "react-native";
 
