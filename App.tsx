@@ -26,29 +26,33 @@ configure({
 
   appName: "Deso Examples React Native",
 
+  network: 'testnet',
+  nodeURI: 'https://test.deso.org',
+
   spendingLimitOptions: {
-    GlobalDESOLimit: 1e9, // 1 $DESO
-    TransactionCountLimitMap: {
-      NEW_MESSAGE: "UNLIMITED",
-    },
-    AccessGroupLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
-      },
-    ],
-    AccessGroupMemberLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
-      },
-    ],
+    // GlobalDESOLimit: 1e9, // 1 $DESO
+    // TransactionCountLimitMap: {
+    //   NEW_MESSAGE: "UNLIMITED",
+    // },
+    // AccessGroupLimitMap: [
+    //   {
+    //     AccessGroupOwnerPublicKeyBase58Check: "",
+    //     ScopeType: "Any",
+    //     AccessGroupKeyName: "",
+    //     OperationType: "Any",
+    //     OpCount: "UNLIMITED",
+    //   },
+    // ],
+    // AccessGroupMemberLimitMap: [
+    //   {
+    //     AccessGroupOwnerPublicKeyBase58Check: "",
+    //     ScopeType: "Any",
+    //     AccessGroupKeyName: "",
+    //     OperationType: "Any",
+    //     OpCount: "UNLIMITED",
+    //   },
+    // ],
+    IsUnlimited: true,
   },
 });
 
@@ -58,7 +62,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <DeSoIdentityProvider>
-        <CryptoPolyfill />
+        {/*<CryptoPolyfill />*/}
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Messaging" component={LowLevelMessaging} />
