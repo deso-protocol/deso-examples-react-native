@@ -62,7 +62,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <DeSoIdentityProvider>
-        {/*<CryptoPolyfill />*/}
+        <CryptoPolyfill />
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Messaging" component={LowLevelMessaging} />
