@@ -1,7 +1,6 @@
 import {
   AccessGroupEntryResponse,
   checkPartyAccessGroups,
-  configure,
   createAccessGroup,
   getAccessGroupInfo,
   getPaginatedDMThread,

@@ -32,29 +32,29 @@ configure({
   nodeURI: 'https://test.deso.org',
 
   spendingLimitOptions: {
-    // GlobalDESOLimit: 1e9, // 1 $DESO
-    // TransactionCountLimitMap: {
-    //   NEW_MESSAGE: "UNLIMITED",
-    // },
-    // AccessGroupLimitMap: [
-    //   {
-    //     AccessGroupOwnerPublicKeyBase58Check: "",
-    //     ScopeType: "Any",
-    //     AccessGroupKeyName: "",
-    //     OperationType: "Any",
-    //     OpCount: "UNLIMITED",
-    //   },
-    // ],
-    // AccessGroupMemberLimitMap: [
-    //   {
-    //     AccessGroupOwnerPublicKeyBase58Check: "",
-    //     ScopeType: "Any",
-    //     AccessGroupKeyName: "",
-    //     OperationType: "Any",
-    //     OpCount: "UNLIMITED",
-    //   },
-    // ],
-    IsUnlimited: true,
+    GlobalDESOLimit: 1e9, // 1 $DESO
+    TransactionCountLimitMap: {
+      AUTHORIZE_DERIVED_KEY: 1,
+      NEW_MESSAGE: "UNLIMITED",
+    },
+    AccessGroupLimitMap: [
+      {
+        AccessGroupOwnerPublicKeyBase58Check: "",
+        ScopeType: "Any",
+        AccessGroupKeyName: "",
+        OperationType: "Any",
+        OpCount: "UNLIMITED",
+      },
+    ],
+    AccessGroupMemberLimitMap: [
+      {
+        AccessGroupOwnerPublicKeyBase58Check: "",
+        ScopeType: "Any",
+        AccessGroupKeyName: "",
+        OperationType: "Any",
+        OpCount: "UNLIMITED",
+      },
+    ],
   },
 });
 
