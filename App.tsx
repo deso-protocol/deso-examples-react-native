@@ -10,6 +10,8 @@ import { ActivityIndicator, Button, Text, View } from "react-native";
 import CryptoPolyfill from "react-native-webview-crypto";
 import DerivedKeysLogin from "./src/DerivedKeysLogin";
 import LowLevelMessaging from "./src/LowLevelMessaging";
+import StyledButton from "./src/Shared/StyledButton";
+import StyledHeading from "./src/Shared/StyledHeading";
 
 // Configure the SDK to use the Expo AuthSession and AsyncStorage
 configure({
@@ -87,25 +89,35 @@ export function HomeScreen({ navigation }: { navigation: any }) {
       {isLoading ? (
         <ActivityIndicator size="large" />
       ) : (
-        <>
-          <Text>Home Screen</Text>
+        <View style={{ width: "80%"}}>
+          <StyledHeading text={'Home Screen'} size={'large'} />
           {currentUser ? (
             <>
               <Text>Hello, ${getDisplayName(currentUser)}</Text>
-              <Button title="Logout" onPress={() => identity.logout()} />
+              <StyledButton
+                styles={{ backgroundColor: "#009688", width: "100%" }}
+                text="Logout"
+                onPress={() => identity.logout()}
+              />
             </>
           ) : (
-            <Button title="Login" onPress={() => identity.login()} />
+            <StyledButton
+              styles={{ backgroundColor: "#009688", width: "100%" }}
+              text="Login"
+              onPress={() => identity.login()}
+            />
           )}
-          <Button
-            title="Low Level Messaging"
+          <StyledButton
+            styles={{ backgroundColor: "#009688", width: "100%" }}
+            text="Low Level Messaging"
             onPress={() => navigation.push("Messaging")}
           />
-          <Button
-            title="Derived Keys Login"
+          <StyledButton
+            styles={{ backgroundColor: "#009688", width: "100%" }}
+            text="Derived Keys Login"
             onPress={() => navigation.push("DerivedKeysLogin")}
           />
-        </>
+        </View>
       )}
     </View>
   );

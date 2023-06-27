@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     fontFamily: "Courier New",
   },
   copyButton: {
-    backgroundColor: "#2196F3",
+    backgroundColor: "#009688",
     paddingHorizontal: 16,
     paddingVertical: 8,
     marginLeft: 4,

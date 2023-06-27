@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { ReactNode } from "react";
 
 interface StyledCardProps {
-  title: string;
+  title?: string;
   children: ReactNode;
 }
 
@@ -39,7 +39,7 @@ const cardStyles = StyleSheet.create({
 
 const StyledCard: React.FC<StyledCardProps> = ({ title, children }) => (
   <View style={cardStyles.card}>
-    <Text style={[cardStyles.title, cardStyles.heading1]}>{title}</Text>
+    {title && (<Text style={[cardStyles.title, cardStyles.heading1]}>{title}</Text>)}
 
     <View>
       {children}

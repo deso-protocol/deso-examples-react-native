@@ -6,6 +6,7 @@ interface StyledButtonProps {
   disabled?: boolean;
   loading?: boolean;
   onPress: () => void;
+  styles?: any;
 }
 
 const styles = StyleSheet.create({
@@ -49,7 +50,7 @@ const StyledButton = (props: StyledButtonProps) => {
 
   return (
     <TouchableOpacity
-      style={[styles.button, disabled ? styles.buttonDisabled : {}]}
+      style={[styles.button, disabled ? styles.buttonDisabled : {}, (props.styles || {})]}
       onPress={onPress}
       disabled={disabled || loading}
     >
