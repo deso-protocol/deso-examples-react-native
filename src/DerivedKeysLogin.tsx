@@ -69,14 +69,6 @@ export default function DerivedKeysLogin() {
   const [creatingAccessGroups, setCreatingAccessGroups] = useState<boolean>(false);
   const [sendingMessage, setSendingMessage] = useState<boolean>(false);
 
-  configure({
-    nodeURI: "https://test.deso.org",
-    network: NETWORK,
-    spendingLimitOptions: {
-      IsUnlimited: true
-    }
-  });
-
   useEffect(() => {
     setKeyPair1(keygen());
     setKeyPair2(keygen());
@@ -317,24 +309,26 @@ export default function DerivedKeysLogin() {
                       </View>
                     </StyledCard>
 
-                    <StyledCard title={"Thread"}>
-                      {messageThread.length === 0 && <Text>No messages found.</Text>}
+                    <View style={{ marginBottom: 64}}>
+                      <StyledCard title={"Thread"}>
+                        {messageThread.length === 0 && <Text>No messages found.</Text>}
 
-                      {messageThread.map((message, i) => {
-                        const activeUserKey = (radioSelected === 1) ? user1?.publicKeyBase58Check : user2?.publicKeyBase58Check;
-                        const isSelf = message.SenderInfo.OwnerPublicKeyBase58Check === activeUserKey;
+                        {messageThread.map((message, i) => {
+                          const activeUserKey = (radioSelected === 1) ? user1?.publicKeyBase58Check : user2?.publicKeyBase58Check;
+                          const isSelf = message.SenderInfo.OwnerPublicKeyBase58Check === activeUserKey;
 
-                        return (
-                          <StyledMessage
-                            key={message.MessageInfo.TimestampNanos}
-                            text={message.DecryptedMessage}
-                            sender={message.SenderInfo.OwnerPublicKeyBase58Check}
-                            timestampNanos={message.MessageInfo.TimestampNanos}
-                            isSelf={isSelf}
-                          />
-                        );
-                      })}
-                    </StyledCard>
+                          return (
+                            <StyledMessage
+                              key={message.MessageInfo.TimestampNanos}
+                              text={message.DecryptedMessage}
+                              sender={message.SenderInfo.OwnerPublicKeyBase58Check}
+                              timestampNanos={message.MessageInfo.TimestampNanos}
+                              isSelf={isSelf}
+                            />
+                          );
+                        })}
+                      </StyledCard>
+                    </View>
                   </View>
                 )
               }
