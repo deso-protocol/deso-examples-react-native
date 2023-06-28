@@ -28,33 +28,34 @@ configure({
 
   appName: "Deso Examples React Native",
 
-  network: 'testnet',
-  nodeURI: 'https://test.deso.org',
+  network: "testnet",
+  nodeURI: "https://test.deso.org",
 
   spendingLimitOptions: {
-    GlobalDESOLimit: 1e9, // 1 $DESO
-    TransactionCountLimitMap: {
-      AUTHORIZE_DERIVED_KEY: 1,
-      NEW_MESSAGE: "UNLIMITED",
-    },
-    AccessGroupLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
-      },
-    ],
-    AccessGroupMemberLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
-      },
-    ],
+    // GlobalDESOLimit: 1e9, // 1 $DESO
+    // TransactionCountLimitMap: {
+    //   AUTHORIZE_DERIVED_KEY: 1,
+    //   NEW_MESSAGE: "UNLIMITED",
+    // },
+    // AccessGroupLimitMap: [
+    //   {
+    //     AccessGroupOwnerPublicKeyBase58Check: "",
+    //     ScopeType: "Any",
+    //     AccessGroupKeyName: "",
+    //     OperationType: "Any",
+    //     OpCount: "UNLIMITED",
+    //   },
+    // ],
+    // AccessGroupMemberLimitMap: [
+    //   {
+    //     AccessGroupOwnerPublicKeyBase58Check: "",
+    //     ScopeType: "Any",
+    //     AccessGroupKeyName: "",
+    //     OperationType: "Any",
+    //     OpCount: "UNLIMITED",
+    //   },
+    // ],
+    IsUnlimited: true,
   },
 });
 
