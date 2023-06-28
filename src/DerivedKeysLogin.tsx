@@ -147,13 +147,13 @@ export default function DerivedKeysLogin() {
         IncludeBalance: true,
       });
 
-      const [{ BalanceNanos: user1Balance }, { BalanceNanos: user2Balance }] =
-        UserList || [];
+      const user1Balance = UserList?.[0].BalanceNanos || 0;
+      const user2Balance = UserList?.[1].BalanceNanos || 0;
 
       setBalance1(user1Balance || 0);
       setBalance2(user2Balance || 0);
 
-      if (user1Balance > 0 && user2Balance > 0) {
+      if (user1Balance > 0 && user2Balance > 0 && !accessGroupsReady) {
         // When users have some positive balance, we try to check if they already have 'default-key' access groups.
         const res = await checkPartyAccessGroups({
           SenderPublicKeyBase58Check: user1PublicKey,
