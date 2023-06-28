@@ -4,11 +4,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { User, configure, identity } from "deso-protocol";
 import * as AuthSession from "expo-auth-session";
 import * as WebBrowser from "expo-web-browser";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { DeSoIdentityContext, DeSoIdentityProvider } from "react-deso-protocol";
 import { ActivityIndicator, Button, Text, View } from "react-native";
 import CryptoPolyfill from "react-native-webview-crypto";
+import DerivedKeysLogin from "./src/DerivedKeysLogin";
 import LowLevelMessaging from "./src/LowLevelMessaging";
+import StyledButton from "./src/Shared/StyledButton";
+import StyledHeading from "./src/Shared/StyledHeading";
 
 // Configure the SDK to use the Expo AuthSession and AsyncStorage
 configure({
@@ -25,29 +28,34 @@ configure({
 
   appName: "Deso Examples React Native",
 
+  network: "testnet",
+  nodeURI: "https://test.deso.org",
+
   spendingLimitOptions: {
-    GlobalDESOLimit: 1e9, // 1 $DESO
-    TransactionCountLimitMap: {
-      NEW_MESSAGE: "UNLIMITED",
-    },
-    AccessGroupLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
-      },
-    ],
-    AccessGroupMemberLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
-      },
-    ],
+    // GlobalDESOLimit: 1e9, // 1 $DESO
+    // TransactionCountLimitMap: {
+    //   AUTHORIZE_DERIVED_KEY: 1,
+    //   NEW_MESSAGE: "UNLIMITED",
+    // },
+    // AccessGroupLimitMap: [
+    //   {
+    //     AccessGroupOwnerPublicKeyBase58Check: "",
+    //     ScopeType: "Any",
+    //     AccessGroupKeyName: "",
+    //     OperationType: "Any",
+    //     OpCount: "UNLIMITED",
+    //   },
+    // ],
+    // AccessGroupMemberLimitMap: [
+    //   {
+    //     AccessGroupOwnerPublicKeyBase58Check: "",
+    //     ScopeType: "Any",
+    //     AccessGroupKeyName: "",
+    //     OperationType: "Any",
+    //     OpCount: "UNLIMITED",
+    //   },
+    // ],
+    IsUnlimited: true,
   },
 });
 
@@ -61,6 +69,7 @@ export default function App() {
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Messaging" component={LowLevelMessaging} />
+          <Stack.Screen name="DerivedKeysLogin" component={DerivedKeysLogin} />
         </Stack.Navigator>
       </DeSoIdentityProvider>
     </NavigationContainer>
@@ -81,21 +90,35 @@ export function HomeScreen({ navigation }: { navigation: any }) {
       {isLoading ? (
         <ActivityIndicator size="large" />
       ) : (
-        <>
-          <Text>Home Screen</Text>
+        <View style={{ width: "80%"}}>
+          <StyledHeading text={'Home Screen'} size={'large'} />
           {currentUser ? (
             <>
               <Text>Hello, ${getDisplayName(currentUser)}</Text>
-              <Button title="Logout" onPress={() => identity.logout()} />
+              <StyledButton
+                styles={{ backgroundColor: "#009688", width: "100%" }}
+                text="Logout"
+                onPress={() => identity.logout()}
+              />
             </>
           ) : (
-            <Button title="Login" onPress={() => identity.login()} />
+            <StyledButton
+              styles={{ backgroundColor: "#009688", width: "100%" }}
+              text="Login"
+              onPress={() => identity.login()}
+            />
           )}
-          <Button
-            title="Low Level Messaging"
+          <StyledButton
+            styles={{ backgroundColor: "#009688", width: "100%" }}
+            text="Low Level Messaging"
             onPress={() => navigation.push("Messaging")}
           />
-        </>
+          <StyledButton
+            styles={{ backgroundColor: "#009688", width: "100%" }}
+            text="Derived Keys Login"
+            onPress={() => navigation.push("DerivedKeysLogin")}
+          />
+        </View>
       )}
     </View>
   );

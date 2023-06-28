@@ -11,10 +11,28 @@ import {
   identity,
   keygen,
   sendDMMessage,
-  signTx,
+  signTx
 } from "deso-protocol";
-import { useState } from "react";
-import { Button, Text, TextInput, View } from "react-native";
+import { useEffect, useState } from "react";
+import { Button, KeyboardAvoidingView, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import StyledButton from "./Shared/StyledButton";
+import CopyToClipboard from "./Shared/CopyToClipboard";
+import StyledCard from "./Shared/StyledCard";
+import StyledMessage from "./Shared/StyledMessage";
+import StyledInput from "./Shared/StyledInput";
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#F2F2F2",
+    padding: 12
+  },
+  label: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333333",
+    marginBottom: 4
+  }
+});
 
 export const DEFAULT_KEY = "default-key";
 const publicKeyToBase58Check = (publicKey: Uint8Array) =>
@@ -59,6 +77,11 @@ export default function LowLevelMessaging({ navigation }: { navigation: any }) {
       submitTxRes,
     };
   };
+
+  useEffect(() => {
+    setKeyPair1(keygen());
+    setKeyPair2(keygen());
+  }, []);
 
   const sendMessage = async (
     senderKeyPair: KeyPair,
@@ -182,95 +205,133 @@ export default function LowLevelMessaging({ navigation }: { navigation: any }) {
   };
 
   return keyPair1 && keyPair2 ? (
-    <View>
-      <Text>Key Pair 1 Public Key: </Text>
-      <Text selectable={true}>{publicKeyToBase58Check(keyPair1.public)}</Text>
-      <Text>Key Pair 1 Balance: {balance1} nanos</Text>
-      <Text>Key Pair 2 Public Key: </Text>
-      <Text selectable={true}>{publicKeyToBase58Check(keyPair2.public)}</Text>
-      <Text>Key Pair 2 Balance: {balance2} nanos</Text>
-      <Button
-        title="Refresh Balances"
-        onPress={async () => {
-          await refreshBalances();
-        }}
-      />
-      {!accessGroupKeyPair1 && !accessGroupKeyPair2 ? (
-        <Button
-          title="Create Access Groups"
-          onPress={async () => {
-            const [accessGroup1Res, accessGroup2Res] = await Promise.all([
-              createAccessGroup(keyPair1, DEFAULT_KEY),
-              createAccessGroup(keyPair2, DEFAULT_KEY),
-            ]);
-            console.log(accessGroup1Res, accessGroup2Res);
-            setAccessGroupKeyPair1(accessGroup1Res.accessGroupKeyPair);
-            setAccessGroupKeyPair2(accessGroup2Res.accessGroupKeyPair);
-          }}
-        />
-      ) : (
-        <View>
-          <TextInput onChangeText={(text) => setMessage1(text)} />
-          <Button
-            title="Send message from user1"
-            onPress={() =>
-              sendMessage(
-                keyPair1,
-                accessGroupKeyPair1 as KeyPair,
-                DEFAULT_KEY,
-                publicKeyToBase58Check(keyPair2.public),
-                publicKeyToBase58Check(
-                  accessGroupKeyPair2?.public as Uint8Array
-                ),
-                DEFAULT_KEY,
-                message1
-              )
-            }
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="position">
+      <ScrollView style={styles.container}>
+        <View style={styles.container}>
+          <StyledCard title={"User 1 Public Key"}>
+            <>
+              <CopyToClipboard text={publicKeyToBase58Check(keyPair1.public)}>
+                {publicKeyToBase58Check(keyPair1.public)}
+              </CopyToClipboard>
+              <Text style={styles.label}>Balance: {balance1 || 0} nanos</Text>
+            </>
+          </StyledCard>
+
+          <StyledCard title={"User 2 Public Key"}>
+            <>
+              <CopyToClipboard text={publicKeyToBase58Check(keyPair2.public)}>
+                {publicKeyToBase58Check(keyPair2.public)}
+              </CopyToClipboard>
+              <Text style={styles.label}>Balance: {balance2 || 0} nanos</Text>
+            </>
+          </StyledCard>
+
+          <StyledButton
+            text={"Refresh Balances"}
+            onPress={async () => {
+              await refreshBalances();
+            }}
           />
-          <TextInput onChangeText={(text) => setMessage2(text)} />
-          <Button
-            title="Send message from user2"
-            onPress={() =>
-              sendMessage(
-                keyPair2,
-                accessGroupKeyPair2 as KeyPair,
-                DEFAULT_KEY,
-                publicKeyToBase58Check(keyPair1.public),
-                publicKeyToBase58Check(
-                  accessGroupKeyPair1?.public as Uint8Array
-                ),
-                DEFAULT_KEY,
-                message2
-              )
-            }
-          />
-          <View>
-            <Button
-              title="refresh messages"
-              onPress={() => getMessageThread()}
+
+          {!accessGroupKeyPair1 && !accessGroupKeyPair2 ? (
+            <StyledButton
+              text="Create Access Groups"
+              onPress={async () => {
+                const [accessGroup1Res, accessGroup2Res] = await Promise.all([
+                  createAccessGroup(keyPair1, DEFAULT_KEY),
+                  createAccessGroup(keyPair2, DEFAULT_KEY)
+                ]);
+                console.log(accessGroup1Res, accessGroup2Res);
+                setAccessGroupKeyPair1(accessGroup1Res.accessGroupKeyPair);
+                setAccessGroupKeyPair2(accessGroup2Res.accessGroupKeyPair);
+              }}
             />
-            <Text>Message Thread</Text>
-            {messageThread.map((message) => {
-              return (
-                <View key={message.MessageInfo.TstampNanos}>
-                  <Text>
-                    {message.SenderInfo.OwnerPublicKeyBase58Check} sent "
-                    {message.DecryptedMessage}"
-                  </Text>
+          ) : (
+            <View style={{ marginTop: 24 }}>
+              <StyledCard>
+                <StyledInput placeholder={'User 1 message'} value={message1} onChangeText={(text) => setMessage1(text)} />
+                <StyledButton
+                  text="Send message from user1"
+                  onPress={() =>
+                    sendMessage(
+                      keyPair1,
+                      accessGroupKeyPair1 as KeyPair,
+                      DEFAULT_KEY,
+                      publicKeyToBase58Check(keyPair2.public),
+                      publicKeyToBase58Check(
+                        accessGroupKeyPair2?.public as Uint8Array
+                      ),
+                      DEFAULT_KEY,
+                      message1
+                    )
+                  }
+                  styles={{ marginTop: 0 }}
+                />
+              </StyledCard>
+
+              <StyledCard>
+                <StyledInput placeholder={'User 2 message'} value={message2} onChangeText={(text) => setMessage2(text)} />
+                <StyledButton
+                  text="Send message from user2"
+                  onPress={() =>
+                    sendMessage(
+                      keyPair2,
+                      accessGroupKeyPair2 as KeyPair,
+                      DEFAULT_KEY,
+                      publicKeyToBase58Check(keyPair1.public),
+                      publicKeyToBase58Check(
+                        accessGroupKeyPair1?.public as Uint8Array
+                      ),
+                      DEFAULT_KEY,
+                      message2
+                    )
+                  }
+                  styles={{ marginTop: 0 }}
+                />
+              </StyledCard>
+
+              <View style={{ marginBottom: 64 }}>
+                <View style={{ marginTop: 32  }}>
+                  <StyledCard title={'Message Thread'}>
+                    <StyledButton
+                      text="Refresh messages"
+                      onPress={() => getMessageThread()}
+                      styles={{ backgroundColor: "#009688", marginTop: 6, marginBottom: 12 }}
+                    />
+
+                    {messageThread.length === 0 && <Text>No messages found.</Text>}
+
+                    {messageThread.map((message) => {
+                      return (
+                        <View key={message.MessageInfo.TstampNanos}>
+                          <StyledMessage
+                            key={message.MessageInfo.TimestampNanos}
+                            text={message.DecryptedMessage}
+                            sender={message.SenderInfo.OwnerPublicKeyBase58Check}
+                            timestampNanos={message.MessageInfo.TimestampNanos}
+                            isSelf={true} // TODO: always true because we don't have radio button to select a user
+                          />
+                        </View>
+                      );
+                    })}
+                  </StyledCard>
                 </View>
-              );
-            })}
-          </View>
+              </View>
+            </View>
+          )}
         </View>
-      )}
-    </View>
+      </ScrollView>
+    </KeyboardAvoidingView>
   ) : (
-    <Button
-      title="Generate Key Pairs"
-      onPress={() => {
-        setKeyPair1(keygen());
-        setKeyPair2(keygen());
-      }}
-    />
+    <View style={{ display: "flex", alignItems: "center" }}>
+      <StyledButton
+        text="Generate Key Pairs"
+        onPress={() => {
+          setKeyPair1(keygen());
+          setKeyPair2(keygen());
+        }}
+        styles={{ width: "80%" }}
+      />
+    </View>
   );
 }
