@@ -1,4 +1,3 @@
-import { getRandomValues } from 'expo-crypto';
+import { polyfillWebCrypto } from 'expo-standard-web-crypto';
 
-if (!global.crypto) global.crypto = {};
-global.crypto.getRandomValues = getRandomValues;
+polyfillWebCrypto();

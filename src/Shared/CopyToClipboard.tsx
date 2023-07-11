@@ -1,6 +1,6 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import * as Clipboard from 'expo-clipboard';
+import React from "react";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     marginBottom: 16,
-    fontFamily: "Courier New",
   },
   copyButton: {
     backgroundColor: "#009688",
