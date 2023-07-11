@@ -16,49 +16,49 @@ import StyledHeading from "./src/Shared/StyledHeading";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-configure({
-  redirectURI: AuthSession.makeRedirectUri(),
+  configure({
+    redirectURI: AuthSession.makeRedirectUri(),
 
-  identityPresenter: async (url) => {
-    const result = await WebBrowser.openAuthSessionAsync(url);
-    if (result.type === "success") {
-      identity.handleRedirectURI(result.url);
-    }
-  },
-
-  storageProvider: AsyncStorage,
-
-  appName: "Deso Examples React Native",
-
-  network: "testnet",
-  nodeURI: "https://test.deso.org",
-
-  spendingLimitOptions: {
-    GlobalDESOLimit: 1e9, // 1 $DESO
-    TransactionCountLimitMap: {
-      AUTHORIZE_DERIVED_KEY: 1,
-      NEW_MESSAGE: "UNLIMITED",
+    identityPresenter: async (url) => {
+      const result = await WebBrowser.openAuthSessionAsync(url);
+      if (result.type === "success") {
+        identity.handleRedirectURI(result.url);
+      }
     },
-    AccessGroupLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
+
+    storageProvider: AsyncStorage,
+
+    appName: "Deso Examples React Native",
+
+    network: "testnet",
+    nodeURI: "https://test.deso.org",
+
+    spendingLimitOptions: {
+      GlobalDESOLimit: 1e9, // 1 $DESO
+      TransactionCountLimitMap: {
+        AUTHORIZE_DERIVED_KEY: 1,
+        NEW_MESSAGE: "UNLIMITED",
       },
-    ],
-    AccessGroupMemberLimitMap: [
-      {
-        AccessGroupOwnerPublicKeyBase58Check: "",
-        ScopeType: "Any",
-        AccessGroupKeyName: "",
-        OperationType: "Any",
-        OpCount: "UNLIMITED",
-      },
-    ],
-  },
-});
+      AccessGroupLimitMap: [
+        {
+          AccessGroupOwnerPublicKeyBase58Check: "",
+          ScopeType: "Any",
+          AccessGroupKeyName: "",
+          OperationType: "Any",
+          OpCount: "UNLIMITED",
+        },
+      ],
+      AccessGroupMemberLimitMap: [
+        {
+          AccessGroupOwnerPublicKeyBase58Check: "",
+          ScopeType: "Any",
+          AccessGroupKeyName: "",
+          OperationType: "Any",
+          OpCount: "UNLIMITED",
+        },
+      ],
+    },
+  });
 
   // Configure the SDK to use the Expo AuthSession and AsyncStorage
   configure({
@@ -129,8 +129,8 @@ export function HomeScreen({ navigation }: { navigation: any }) {
       {isLoading ? (
         <ActivityIndicator size="large" />
       ) : (
-        <View style={{ width: "80%"}}>
-          <StyledHeading text={'Home Screen'} size={'large'} />
+        <View style={{ width: "80%" }}>
+          <StyledHeading text={"Home Screen"} size={"large"} />
           {currentUser ? (
             <>
               <Text>Hello, ${getDisplayName(currentUser)}</Text>
