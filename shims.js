@@ -1,6 +1,6 @@
 // NOTE: shims must be imported into index.js before anything else and the order
 // is important so don't change it.
-import "react-native-get-random-values";
+import "./get-random-values-shim";
 
 // The deso-protocol lib depends on the ethers library. See the following for more info:
 // https://docs.ethers.org/v5/cookbook/react-native/
