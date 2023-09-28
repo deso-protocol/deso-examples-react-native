@@ -2,7 +2,9 @@
 
 Examples of using the
 [deso-protocol](https://github.com/deso-protocol/deso-js#deso-protocol) library
-in a React Native application.
+in a React Native application. 
+
+IMPORTANT: [Read this REACT-NATIVE.md](https://github.com/deso-protocol/deso-js/blob/main/REACT-NATIVE.md) for an overview of shims and other requirements.
 
 ## Running this app locally
 This is using a basic react native [expo setup](https://reactnative.dev/docs/environment-setup?guide=quickstart).
